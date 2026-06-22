@@ -62,11 +62,11 @@ jobs:
 
       # ------------------------------------------------------------------
       # OPTIONAL: also add every new issue to a GitHub Project (v2) board.
-      # Easiest path (no extra setup): create a Project, then in the Project's
+      # Easiest path (no extra setup): createCategory a Project, then in the Project's
       #   Settings -> Workflows -> "Auto-add to project", filter by  label:capstone
       # and every issue created above will land on the board automatically.
       #
-      # If you'd rather have this workflow add them, create a PAT with the
+      # If you'd rather have this workflow add them, createCategory a PAT with the
       # 'project' scope, store it as the ADD_TO_PROJECT_PAT secret, set your
       # project URL below, and uncomment:
       #

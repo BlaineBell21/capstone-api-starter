@@ -1,6 +1,7 @@
 package org.yearup.service;
 
 import org.springframework.stereotype.Service;
+import org.yearup.models.Category;
 import org.yearup.models.Product;
 import org.yearup.repository.ProductRepository;
 
@@ -30,14 +31,13 @@ public class ProductService
                        .toList();
     }
 
-    public List<Product> listByCategoryId(int categoryId)
-    {
-        return productRepository.findByCategoryId(categoryId);
-    }
-
-    public Product getById(int productId)
+    public Product getById(Integer productId)
     {
         return productRepository.findById(productId).orElse(null);
+    }
+
+    public List<Product> getProductsByCategoryId(Integer categoryId){
+        return productRepository.findByCategoryId(categoryId);
     }
 
     public Product create(Product product)

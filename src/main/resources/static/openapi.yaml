@@ -669,7 +669,7 @@ paths:
     get:
       tags: [Categories]
       summary: Get products in a category (@todo)
-      description: Returns all products belonging to the given category. @todo - CategoriesController.getProductsById() stub exists but is not implemented.
+      description: Returns all products belonging to the given category. @todo - CategoriesController.getProductsByCategoryId() stub exists but is not implemented.
       operationId: getProductsByCategory
       security: []
       parameters:
@@ -835,7 +835,7 @@ paths:
   /orders:
     post:
       tags: [Orders]
-      summary: Checkout - create order from cart (@todo)
+      summary: Checkout - createCategory order from cart (@todo)
       description: Converts the current user's shopping cart into a new order. Creates a record in the orders table and one order line item per cart item, then clears the cart. No request body required. @todo - OrdersController does not yet exist and must be created from scratch.
       operationId: checkout
       security:

@@ -76,10 +76,10 @@ public class AuthenticationController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User Already Exists.");
         }
 
-        // create user
+        // createCategory user
         User user = userService.create(new User(0, newUser.getUsername(), newUser.getPassword(), newUser.getRole()));
 
-        // create profile
+        // createCategory profile
         Profile profile = new Profile();
         profile.setUserId(user.getId());
         profileService.create(profile);

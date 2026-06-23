@@ -17,8 +17,7 @@ public class ProductsController
 {
     private final ProductService productService;
 
-    public ProductsController(ProductService productService)
-    {
+    public ProductsController(ProductService productService) {
         this.productService = productService;
     }
 
@@ -27,17 +26,14 @@ public class ProductsController
     public List<Product> allProducts(@RequestParam(name="cat", required = false) Integer categoryId,
                                 @RequestParam(name="minPrice", required = false) Double minPrice,
                                 @RequestParam(name="maxPrice", required = false) Double maxPrice,
-                                @RequestParam(name="subCategory", required = false) String subCategory)
-    {
-        List<Product> allProductCategories = productService.search(categoryId, minPrice, maxPrice, subCategory);
-        return ResponseEntity.ok(allProductCategories).getBody();
+                                @RequestParam(name="subCategory", required = false) String subCategory) {
+        return productService.search(categoryId, minPrice, maxPrice, subCategory);
     }
 
 
     @GetMapping("/{id}")
     @PreAuthorize("permitAll()")
-    public Product getById(@PathVariable int id)
-    {
+    public Product getById(@PathVariable int id) {
         Product product = productService.getById(id);
 
         if (product == null)
@@ -49,27 +45,26 @@ public class ProductsController
 
     @PostMapping()
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Product> addProduct(@RequestBody Product product)
-    {
+    public ResponseEntity<Product> addProduct(@RequestBody Product product) {
+        System.out.println("Controller reached");
         Product saved = productService.create(product);
         return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public Product updateProduct(@PathVariable int id, @RequestBody Product product)
-    {
+    public Product updateProduct(@PathVariable int id, @RequestBody Product product) {
         if (productService.getById(id) == null)
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-
         return productService.update(id, product);
     }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Void> deleteProduct(@PathVariable int id)
-    {
-        if (productService.getById(id) == null)
+    public ResponseEntity<Void> deleteProduct(@PathVariable int id) {
+        Product product = productService.getById(id);
+
+        if (product == null)
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 
         productService.delete(id);

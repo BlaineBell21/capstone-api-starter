@@ -37,7 +37,6 @@ public class ProductService
 
     public Product create(Product product)
     {
-        product.setProductId(0);
         return productRepository.save(product);
     }
 
@@ -55,8 +54,7 @@ public class ProductService
         return productRepository.save(existing);
     }
 
-    public void delete(int productId)
-    {
+    public void delete(int productId) {
         productRepository.deleteById(productId);
     }
 }

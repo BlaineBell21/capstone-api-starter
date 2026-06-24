@@ -21,14 +21,6 @@ public class ProfileController {
         this.profileService = profileService;
     }
 
-//    @GetMapping
-//    @PreAuthorize("isAuthenticated()")
-//    public ResponseEntity <List<Profile>> getProfiles(){
-//       List<Profile> userProfiles = profileService.getAllProfiles();
-//
-//       return ResponseEntity.ok(userProfiles);
-//    }
-
     @GetMapping
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<Profile> getProfile(Principal principal){

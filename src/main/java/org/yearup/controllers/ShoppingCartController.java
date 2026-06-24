@@ -9,7 +9,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.yearup.models.*;
 import org.yearup.service.ShoppingCartService;
-import org.yearup.service.UserService;
 
 import java.security.Principal;
 
@@ -20,11 +19,10 @@ import java.security.Principal;
 public class ShoppingCartController {
     // a shopping cart controller depends on the service layer
     private final ShoppingCartService shoppingCartService;
-    private final UserService userService;
 
-    public ShoppingCartController(ShoppingCartService shoppingCartService, UserService userService) {
+
+    public ShoppingCartController(ShoppingCartService shoppingCartService) {
         this.shoppingCartService = shoppingCartService;
-        this.userService = userService;
     }
 
     // each method in this controller requires a Principal object as a parameter

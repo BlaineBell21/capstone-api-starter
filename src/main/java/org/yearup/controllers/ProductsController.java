@@ -46,7 +46,6 @@ public class ProductsController
     @PostMapping()
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Product> addProduct(@RequestBody Product product) {
-        System.out.println("Controller reached");
         Product saved = productService.create(product);
         return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
@@ -64,10 +63,10 @@ public class ProductsController
     public ResponseEntity<Void> deleteProduct(@PathVariable int id) {
         Product product = productService.getById(id);
 
-        if (product == null)
+        if (product == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-
+        }
         productService.delete(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().build();
     }
 }

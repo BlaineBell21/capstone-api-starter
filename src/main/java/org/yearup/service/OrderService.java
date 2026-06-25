@@ -18,16 +18,18 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final ShoppingCartService shoppingCartService;
     private final ProfileService profileService;
+    private final ReceiptService receiptService;
 
-    public OrderService(OrderRepository orderRepository, ShoppingCartService shoppingCartService, ProfileService profileService) {
+    public OrderService(OrderRepository orderRepository, ShoppingCartService shoppingCartService, ProfileService profileService, ReceiptService receiptService) {
         this.orderRepository = orderRepository;
         this.shoppingCartService = shoppingCartService;
         this.profileService = profileService;
+        this.receiptService = receiptService;
     }
-
 
     public BigDecimal calculateTotal(List<OrderItem> itemList){
         BigDecimal total = BigDecimal.ZERO;
+        BigDecimal shippingAmount = new BigDecimal("5.99");
 
         for(OrderItem item : itemList){
             int itemQuantity = item.getQuantity();
@@ -36,7 +38,8 @@ public class OrderService {
             total = total.add(totalItemPrice);
         }
 
-        return total;
+
+        return total.add(shippingAmount);
     }
 
     public List<OrderItem> getCartItems(int userId){
@@ -91,6 +94,7 @@ public class OrderService {
         Order newOrder = new Order();
 
 
+
         newOrder.setUserId(userId);
         newOrder.setOrderDate(DateUtils.currentDateAndTime());
         newOrder.setItems(orderItems);
@@ -106,6 +110,7 @@ public class OrderService {
         }
 
         orderRepository.save(newOrder);
+        receiptService.saveReceipt(newOrder);
 
         shoppingCartService.clearCart(userId);
         return newOrder;

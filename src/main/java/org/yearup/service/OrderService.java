@@ -74,6 +74,7 @@ public class OrderService {
 
     @Transactional
     public Order checkout(Principal principal){
+        // in the future when i have more time i plan on breaking down this method into smaller pieces
         // finalizes user's order
         int userId = getUserId(principal);
 

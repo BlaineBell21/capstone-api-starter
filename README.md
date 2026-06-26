@@ -86,6 +86,85 @@ Moonbeam Market has been completely redesigned with a custom visual identity inc
 
 ---
 
+## 💡 Featured Code
+
+One of the most interesting pieces of logic in Moonbeam Market is the checkout workflow implemented in the `OrderService`.
+
+During checkout, the service coordinates several independent parts of the application into a single transaction:
+
+* Retrieves the authenticated user's shopping cart
+* Converts `ShoppingCartItem` objects into persistent `OrderItem` entities
+* Calculates the order total using `BigDecimal` for accurate monetary calculations
+* Creates and saves the `Order`
+* Associates each `OrderItem` with the new order
+* Clears the user's shopping cart after a successful purchase
+
+This service demonstrates the responsibility of the service layer in a layered Spring Boot application. Rather than simply performing CRUD operations, it encapsulates the application's business rules by validating the cart, transforming data between models, calculating totals, persisting related entities, and maintaining transactional integrity.
+
+There are definitely still some changes/improvements I'd like to make to this method in the future. Currently, it handles validating the cart, creating the order, getting the total, and clearing the cart, and it'd be cleaner to separate all these functions into smaller methods.
+
+```java
+@Transactional
+public Order checkout(Principal principal){
+    // in the future when i have more time i plan on breaking down this method into smaller pieces
+    // finalizes user's order
+    int userId = getUserId(principal);
+
+    List<OrderItem> orderItems = getCartItems(userId);
+
+    // checks if order is empty to keep user from checking out an empty cart
+    if (orderItems.isEmpty()){
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                "Cannot checkout an empty orderItems");
+    }
+
+    Profile userProfile = getUserProfile(principal);
+
+    String userAddress = userProfile.getAddress();
+
+    String userCity = userProfile.getCity();
+
+    String userState = userProfile.getState();
+
+    String userZip = userProfile.getZip();
+
+    BigDecimal total = calculateTotal(orderItems);
+
+    Order newOrder = new Order();
+
+
+    // sets newOrder to information of current order
+    newOrder.setUserId(userId);
+    newOrder.setOrderDate(DateUtils.currentDateAndTime());
+    newOrder.setItems(orderItems);
+    newOrder.setAddress(userAddress);
+    newOrder.setCity(userCity);
+    newOrder.setState(userState);
+    newOrder.setZip(userZip);
+    newOrder.setShippingAmount(new BigDecimal("5.99"));
+    newOrder.setTotal(total);
+
+    for (OrderItem item : orderItems){
+        item.setOrder(newOrder);
+    }
+
+    // saves order to repository
+    orderRepository.save(newOrder);
+
+    // takes order information to receipt service to create a receipt
+    receiptService.saveReceipt(newOrder);
+
+    // clears user's cart after order is finished
+    shoppingCartService.clearCart(userId);
+
+    // returns an empty cart
+    return newOrder;
+}
+```
+
+I chose this example because it demonstrates several concepts working together rather than a single isolated feature. It highlights service-layer design, entity relationships, transactional operations, object transformation, and financial calculations using `BigDecimal`, making it one of the core pieces of business logic in the application.
+
+
 # 🛠 Tech Stack
 
 ## Backend

@@ -39,8 +39,8 @@ The goal of this project was not only to build a functional REST API, but also t
 | ![](images/profile.png) | ![](images/login.png) |
 
 | Checkout                      | Admin Dashboard *(Coming Soon)* |
-| ----------------------------- | ------------------------------- |
-| ![](images/checkout.png) | *(Coming Soon)*                 |
+| ----------------------------- |---------------------------------|
+| ![](images/checkout.png) | (images/admin.png)              |
 
 ---
 

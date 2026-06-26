@@ -40,7 +40,7 @@ The goal of this project was not only to build a functional REST API, but also t
 
 | Checkout                      | Admin Dashboard *(Coming Soon)* |
 | ----------------------------- |---------------------------------|
-| ![](images/checkout.png) | (images/admin.png)              |
+| ![](images/checkout.png) | ![](images/admin.png)              |
 
 ---
 
